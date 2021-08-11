@@ -38,7 +38,7 @@ class Ledger
      * @param $reason
      * @return mixed
      */
-    public function debit($to, $from, $amount, $amount_currency, $reason)
+    public function debit($to, $from, $amount, $amount_currency, $reason = '')
     {
         $balance = $to->balance();
         $current_balance_currency = isset($to->current_balance_currency) ? $to->current_balance_currency : Null;
@@ -66,7 +66,7 @@ class Ledger
      * @return mixed
      * @throws InsufficientBalanceException
      */
-    public function credit($from, $to, $amount, $amount_currency="UGX", $reason)
+    public function credit($from, $to, $amount, $amount_currency="USD", $reason = '')
     {
         $balance = $from->balance();
         $current_balance_currency = isset($from->current_balance_currency) ? $from->current_balance_currency : Null;
@@ -124,7 +124,7 @@ class Ledger
      * @throws InvalidRecipientException
      * @throws InsufficientBalanceException
      */
-    public function transfer($from, $to, $amount, $amount_currency="UGX", $reason = "funds transfer")
+    public function transfer($from, $to, $amount, $amount_currency = 'USD', $reason = 'funds transfer')
     {
         if (!is_array($to))
             return $this->transferOnce($from, $to, $amount, $reason);
@@ -153,7 +153,7 @@ class Ledger
      * @throws InsufficientBalanceException
      * @throws InvalidRecipientException
      */
-    protected function transferOnce($from, $to, $amount, $amount_currency="UGX", $reason)
+    protected function transferOnce($from, $to, $amount, $amount_currency = 'USD', $reason = '')
     {
         if (get_class($from) == get_class($to) && $from->id == $to->id)
             throw new InvalidRecipientException("Source and recipient cannot be the same object");
